@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="NovaTaskbar.App.Settings.SettingsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:NovaTaskbar.App.Settings">
+
+    <Grid x:Name="Root">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Barra de título própria -->
+        <Grid x:Name="TitleBar" Height="44" Padding="16,0,140,0">
+            <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                <Image Source="ms-appx:///Assets/CleanWinVista-64.png" Width="20" Height="20" />
+                <TextBlock Text="CleanWinVista" FontWeight="SemiBold" VerticalAlignment="Center" />
+                <TextBlock Text="Settings" Opacity="0.6" VerticalAlignment="Center" />
+            </StackPanel>
+        </Grid>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Padding="24,4,24,28" Spacing="14" MaxWidth="680">
+                <StackPanel.Resources>
+                    <Style x:Key="Card" TargetType="Border">
+                        <!-- Cartões de vidro: camada translúcida sobre o Acrylic da janela (mesmo estilo do Dock) -->
+                        <Setter Property="Background" Value="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}" />
+                        <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="CornerRadius" Value="12" />
+                        <Setter Property="Padding" Value="18,14" />
+                    </Style>
+                    <Style x:Key="Section" TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="15" />
+                        <Setter Property="FontWeight" Value="SemiBold" />
+                        <Setter Property="Margin" Value="0,0,0,8" />
+                    </Style>
+                    <Style x:Key="Hint" TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="Opacity" Value="0.65" />
+                        <Setter Property="TextWrapping" Value="Wrap" />
+                    </Style>
+                </StackPanel.Resources>
+
+                <!-- Idioma -->
+                <Border Style="{StaticResource Card}">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="Language" Style="{StaticResource Section}" />
+                        <ComboBox ItemsSource="{x:Bind ViewModel.LanguageNames}" SelectedIndex="{x:Bind ViewModel.LanguageIndex, Mode=TwoWay}" MinWidth="320" />
+                        <StackPanel Orientation="Horizontal" Spacing="10" Visibility="{x:Bind ViewModel.LanguageChanged, Mode=OneWay}">
+                            <TextBlock Style="{StaticResource Hint}" VerticalAlignment="Center" Text="Restart CleanWinVista to apply the new language." />
+                            <Button Content="Restart now" Style="{StaticResource AccentButtonStyle}" Click="OnRestart" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Modo -->
+                <Border Style="{StaticResource Card}">
+                    <StackPanel>
+                        <TextBlock Text="Mode" Style="{StaticResource Section}" />
+                        <RadioButtons SelectedIndex="{x:Bind ViewModel.ModeIndex, Mode=TwoWay}" MaxColumns="3">
+                            <RadioButton Content="Classic" />
+                            <RadioButton Content="Floating" />
+                            <RadioButton Content="Extended (with widgets)" />
+                        </RadioButtons>
+                        <TextBlock Style="{StaticResource Hint}" Margin="0,6,0,0"
+                                   Text="Choosing a mode applies typical sizes; you can fine-tune them below. Extended mode shows widgets to the right of the apps." />
+                    </StackPanel>
+                </Border>
+
+                <!-- Pergunta do 1º uso: iniciar com o Windows -->
+                <Border Style="{StaticResource Card}" Visibility="{x:Bind ViewModel.ShowStartupPrompt, Mode=OneWay}">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Start CleanWinVista with Windows?" Style="{StaticResource Section}" Margin="0" />
+                        <TextBlock Style="{StaticResource Hint}" TextWrapping="Wrap"
+                                   Text="The Dock opens by itself when you turn on the computer. You can change this anytime under Behavior." />
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Button Content="Yes, start with Windows" Style="{StaticResource AccentButtonStyle}" Click="OnStartupYes" />
+                            <Button Content="Not now" Click="OnStartupNo" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Posição -->
+                <Border Style="{StaticResource Card}">
+                    <StackPanel>
+                        <TextBlock Text="Screen position" Style="{StaticResource Section}" />
+                        <RadioButtons SelectedIndex="{x:Bind ViewModel.EdgeIndex, Mode=TwoWay}" MaxColumns="2">
+                            <RadioButton Content="Bottom (horizontal)" />
+                            <RadioButton Content="Top (horizontal)" />
+                            <RadioButton Content="Left (vertical)" />
+                            <RadioButton Content="Right (vertical)" />
+                        </RadioButtons>
+                        <TextBlock Style="{StaticResource Hint}" Margin="0,6,0,0"
+                                   Text="In vertical positions widgets are hidden (apps only). The Windows taskbar stays where it is." />
+                    </StackPanel>
+                </Border>
+
+                <!-- Vidro -->
+                <Border Style="{StaticResource Card}">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Glass" Style="{StaticResource Section}" />
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ComboBox Header="Material" HorizontalAlignment="Stretch"
+                                      SelectedIndex="{x:Bind ViewModel.MaterialIndex, Mode=TwoWay}">
+                                <ComboBoxItem Content="Acrylic (blur)" />
+                                <ComboBoxItem Content="Thin Acrylic" />
+                                <ComboBoxItem Content="Mica" />
+                                <ComboBoxItem Content="Translucent (no blur)" />
+                            </ComboBox>
+                            <ComboBox Grid.Column="1" Header="Theme" HorizontalAlignment="Stretch"
+                                      SelectedIndex="{x:Bind ViewModel.ThemeIndex, Mode=TwoWay}">
+                                <ComboBoxItem Content="Automatic (Windows)" />
+                                <ComboBoxItem Content="Light" />
+                                <ComboBoxItem Content="Dark" />
+                            </ComboBox>
+                        </Grid>
+                        <TextBlock Style="{StaticResource Hint}" Text="{x:Bind ViewModel.MaterialNote, Mode=OneWay}" />
+
+                        <TextBlock Text="Glass color" Margin="0,4,0,0" />
+                        <StackPanel x:Name="SwatchPanel" Orientation="Horizontal" Spacing="8" />
+
+                        <Slider Header="Color intensity (%)" Minimum="0" Maximum="100" StepFrequency="1"
+                                Value="{x:Bind ViewModel.TintOpacity, Mode=TwoWay}" />
+                        <Slider Header="Acrylic luminosity (%)" Minimum="0" Maximum="100" StepFrequency="1"
+                                Visibility="{x:Bind ViewModel.IsDwmMaterial, Mode=OneWay}"
+                                Value="{x:Bind ViewModel.LuminosityOpacity, Mode=TwoWay}" />
+                        <Slider Header="Corner radius" Minimum="0" Maximum="40" StepFrequency="1"
+                                Visibility="{x:Bind ViewModel.IsTint, Mode=OneWay}"
+                                Value="{x:Bind ViewModel.CornerRadius, Mode=TwoWay}" />
+                        <ToggleSwitch Header="Border" IsOn="{x:Bind ViewModel.BorderVisible, Mode=TwoWay}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Ícones e layout -->
+                <Border Style="{StaticResource Card}">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="Icons and position" Style="{StaticResource Section}" />
+                        <Slider Header="Icon size" Minimum="24" Maximum="96" StepFrequency="1"
+                                Value="{x:Bind ViewModel.IconSize, Mode=TwoWay}" />
+                        <Slider Header="Spacing" Minimum="0" Maximum="24" StepFrequency="1"
+                                Value="{x:Bind ViewModel.IconSpacing, Mode=TwoWay}" />
+                        <Slider Header="Inner padding" Minimum="0" Maximum="24" StepFrequency="1"
+                                Value="{x:Bind ViewModel.DockPadding, Mode=TwoWay}" />
+                        <Slider Header="Distance from screen edge" Minimum="0" Maximum="80" StepFrequency="1"
+                                Value="{x:Bind ViewModel.ScreenMargin, Mode=TwoWay}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Magnificação -->
+                <Border Style="{StaticResource Card}">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="Magnification" Style="{StaticResource Section}" />
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.MagnificationEnabled, Mode=TwoWay}" />
+                        <Slider Header="Maximum magnification (%)" Minimum="100" Maximum="200" StepFrequency="1"
+                                IsEnabled="{x:Bind ViewModel.MagnificationEnabled, Mode=OneWay}"
+                                Value="{x:Bind ViewModel.MaxScalePercent, Mode=TwoWay}" />
+                        <Slider Header="Reach radius" Minimum="40" Maximum="300" StepFrequency="1"
+                                IsEnabled="{x:Bind ViewModel.MagnificationEnabled, Mode=OneWay}"
+                                Value="{x:Bind ViewModel.MagnificationRadius, Mode=TwoWay}" />
+                        <Slider Header="Influence on neighbors (%)" Minimum="5" Maximum="100" StepFrequency="1"
+                                IsEnabled="{x:Bind ViewModel.MagnificationEnabled, Mode=OneWay}"
+                                Value="{x:Bind ViewModel.NeighborInfluence, Mode=TwoWay}" />
+                        <Slider Header="Animation duration (ms)" Minimum="0" Maximum="600" StepFrequency="10"
+                                Value="{x:Bind ViewModel.AnimationDuration, Mode=TwoWay}" />
+                        <Slider Header="Cursor follow smoothing (ms)" Minimum="0" Maximum="150" StepFrequency="5"
+                                Value="{x:Bind ViewModel.HoverSmoothing, Mode=TwoWay}" />
+                        <ComboBox Header="Curve" SelectedIndex="{x:Bind ViewModel.EasingIndex, Mode=TwoWay}" MinWidth="220">
+                            <ComboBoxItem Content="Linear" />
+                            <ComboBoxItem Content="Smooth (cubic)" />
+                            <ComboBoxItem Content="Sine" />
+                            <ComboBoxItem Content="Fast (quintic)" />
+                            <ComboBoxItem Content="Spring (default, interruptible)" />
+                        </ComboBox>
+                    </StackPanel>
+                </Border>
+
+                <!-- Widgets -->
+                <Border Style="{StaticResource Card}">
+                    <StackPanel Spacing="6">
+                        <Grid>
+                            <TextBlock Text="Widgets" Style="{StaticResource Section}" />
+                            <Button HorizontalAlignment="Right" Content="Use Extended mode" Command="{x:Bind ViewModel.UseExtendedCommand}"
+                                    Visibility="{x:Bind ViewModel.IsNotExtended, Mode=OneWay}" />
+                        </Grid>
+                        <TextBlock Style="{StaticResource Hint}"
+                                   Text="Shown to the right of the apps in Extended mode. Click a tool widget to open its panel; right-click for more options; scroll over the volume to adjust it." />
+                        <ToggleSwitch Header="Allow internet widgets (weather, agenda, currencies, services)" IsOn="{x:Bind ViewModel.AllowNetwork, Mode=TwoWay}" />
+                        <TextBlock Style="{StaticResource Hint}"
+                                   Text="When off, no widget accesses the internet. When on, only the weather, agenda, currency and services widgets make direct HTTPS requests to the services you set up. API keys are stored encrypted on this PC." />
+                        <ItemsControl ItemsSource="{x:Bind ViewModel.Widgets}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="local:WidgetItem">
+                                    <Grid Padding="0,2" ColumnSpacing="8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <FontIcon Glyph="{x:Bind Glyph}" FontSize="16" VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="1" Text="{x:Bind Name}" VerticalAlignment="Center" />
+                                        <ComboBox Grid.Column="2" ItemsSource="{x:Bind StyleNames}" SelectedIndex="{x:Bind StyleIndex, Mode=TwoWay}"
+                                                  Visibility="{x:Bind HasStyles}" MinWidth="150" VerticalAlignment="Center" ToolTipService.ToolTip="Style" />
+                                        <Button Grid.Column="3" Tag="{x:Bind}" Click="OnWidgetUp" ToolTipService.ToolTip="Move left">
+                                            <FontIcon Glyph="&#xE70E;" FontSize="12" />
+                                        </Button>
+                                        <Button Grid.Column="4" Tag="{x:Bind}" Click="OnWidgetDown" ToolTipService.ToolTip="Move right">
+                                            <FontIcon Glyph="&#xE70D;" FontSize="12" />
+                                        </Button>
+                                        <ToggleSwitch Grid.Column="5" IsOn="{x:Bind Enabled, Mode=TwoWay}" OnContent="" OffContent="" MinWidth="0" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ToggleSwitch Header="24-hour clock" IsOn="{x:Bind ViewModel.Clock24h, Mode=TwoWay}" />
+                            <ToggleSwitch Grid.Column="1" Header="Show seconds" IsOn="{x:Bind ViewModel.ClockSeconds, Mode=TwoWay}" />
+                        </Grid>
+                        <Slider Header="Focus timer length (min)" Minimum="5" Maximum="90" StepFrequency="5"
+                                Value="{x:Bind ViewModel.FocusMinutes, Mode=TwoWay}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Comportamento -->
+                <Border Style="{StaticResource Card}">
+                    <StackPanel Spacing="2">
+                        <TextBlock Text="Behavior" Style="{StaticResource Section}" />
+                        <ToggleSwitch Header="Start with Windows" IsOn="{x:Bind ViewModel.StartWithWindows, Mode=TwoWay}" />
+                        <ComboBox Header="Dock visibility" SelectedIndex="{x:Bind ViewModel.VisibilityIndex, Mode=TwoWay}" MinWidth="320" Margin="0,0,0,4">
+                            <ComboBoxItem Content="Always visible" />
+                            <ComboBoxItem Content="Smart — hides for full screen, maximized windows, browser or File Explorer" />
+                            <ComboBoxItem Content="Auto-hide — always hidden" />
+                        </ComboBox>
+                        <TextBlock Style="{StaticResource Hint}" Margin="0,0,0,8"
+                                   Text="When hidden, the Dock comes back when you move the mouse to the screen edge where it sits." />
+                        <ToggleSwitch Header="Show open apps that are not pinned" IsOn="{x:Bind ViewModel.ShowRunningApps, Mode=TwoWay}" />
+                        <ToggleSwitch Header="Indicator under open apps" IsOn="{x:Bind ViewModel.ShowIndicators, Mode=TwoWay}" />
+                        <ToggleSwitch Header="Clicking the active app minimizes its window" IsOn="{x:Bind ViewModel.MinimizeIfActive, Mode=TwoWay}" />
+                        <TextBlock Style="{StaticResource Hint}"
+                                   Text="Click: opens the app or brings its window forward. With several windows, repeated clicks cycle through them. Middle button: new window. Drag icons to reorder; drop .exe/.lnk files from File Explorer onto the Dock to pin them." />
+                    </StackPanel>
+                </Border>
+
+                <!-- Apps -->
+                <Border Style="{StaticResource Card}">
+                    <StackPanel Spacing="8">
+                        <Grid>
+                            <TextBlock Text="Pinned apps" Style="{StaticResource Section}" />
+                            <Button HorizontalAlignment="Right" Command="{x:Bind ViewModel.AddAppCommand}">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <FontIcon Glyph="&#xE710;" FontSize="12" />
+                                    <TextBlock Text="Add app" />
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                        <ItemsControl ItemsSource="{x:Bind ViewModel.PinnedApps}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="local:PinnedAppItem">
+                                    <Grid Padding="0,4" ColumnSpacing="6">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock Text="{x:Bind Name}" />
+                                            <TextBlock Text="{x:Bind Path}" FontSize="11" Opacity="0.55" TextTrimming="CharacterEllipsis" />
+                                        </StackPanel>
+                                        <Button Grid.Column="1" Tag="{x:Bind}" Click="OnMoveUp" ToolTipService.ToolTip="Move left">
+                                            <FontIcon Glyph="&#xE70E;" FontSize="12" />
+                                        </Button>
+                                        <Button Grid.Column="2" Tag="{x:Bind}" Click="OnMoveDown" ToolTipService.ToolTip="Move right">
+                                            <FontIcon Glyph="&#xE70D;" FontSize="12" />
+                                        </Button>
+                                        <Button Grid.Column="3" Tag="{x:Bind}" Click="OnRemove" ToolTipService.ToolTip="Remove from Dock">
+                                            <FontIcon Glyph="&#xE74D;" FontSize="12" />
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <!-- Apoiar o projeto (doação em Bitcoin) -->
+                <Border Style="{StaticResource Card}">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="Support the project" Style="{StaticResource Section}" />
+                        <TextBlock Style="{StaticResource Hint}"
+                                   Text="CleanWinVista is free. If it helps you, a donation keeps development going. Send each coin only to its own address." />
+                        <TextBlock Text="Bitcoin (BTC · native SegWit network)" FontSize="12" Opacity="0.75" />
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="BtcAddress" IsReadOnly="True" FontFamily="Consolas" VerticalAlignment="Center"
+                                     Text="bc1qnkpm79xsymwn0w6gyq7hthrhd247r9pcysqs2w" />
+                            <Button Grid.Column="1" Click="OnCopyBtc" ToolTipService.ToolTip="Copy address">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <FontIcon Glyph="&#xE8C8;" FontSize="14" />
+                                    <TextBlock x:Name="CopyBtcText" Text="Copy" />
+                                </StackPanel>
+                            </Button>
+                            <Button Grid.Column="2" Click="OnOpenBtc" ToolTipService.ToolTip="Open in your Bitcoin wallet (bitcoin: link)">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <FontIcon Glyph="&#xEB51;" FontSize="14" />
+                                    <TextBlock Text="Open wallet" />
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                        <TextBlock Text="Ethereum (ETH · Ethereum/ERC-20 network)" FontSize="12" Opacity="0.75" Margin="0,6,0,0" />
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox IsReadOnly="True" FontFamily="Consolas" VerticalAlignment="Center"
+                                     Text="0xaaee7cd8a131bca4372ef14823a9dfe12f2108e3" />
+                            <Button Grid.Column="1" Click="OnCopyEth" ToolTipService.ToolTip="Copy address">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <FontIcon Glyph="&#xE8C8;" FontSize="14" />
+                                    <TextBlock x:Name="CopyEthText" Text="Copy" />
+                                </StackPanel>
+                            </Button>
+                            <Button Grid.Column="2" Click="OnOpenEth" ToolTipService.ToolTip="Open in your wallet (ethereum: link)">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <FontIcon Glyph="&#xEB51;" FontSize="14" />
+                                    <TextBlock Text="Open wallet" />
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <Button HorizontalAlignment="Left" Content="Restore default appearance" Command="{x:Bind ViewModel.RestoreFactoryCommand}" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="NovaTaskbar.App.Dock.DockWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid x:Name="Root"
+          Background="Transparent"
+          AllowDrop="True"
+          PointerMoved="OnPointerMoved"
+          PointerExited="OnPointerExited"
+          PointerCanceled="OnPointerCanceled"
+          PointerCaptureLost="OnPointerCaptureLost"
+          PointerPressed="OnPointerPressed"
+          PointerReleased="OnPointerReleased"
+          RightTapped="OnRightTapped"
+          DragOver="OnDragOver"
+          DragLeave="OnDragLeave"
+          Drop="OnDrop">
+        <Canvas x:Name="Layer">
+            <!-- Pílula desenhada pelo app (material "Translúcido"). Nos materiais DWM a pílula é a GlassWindow. -->
+            <Border x:Name="TintPill" Visibility="Collapsed" BorderThickness="1" />
+            <!-- Indicador de "solte para fixar" durante arrastar do Explorer -->
+            <Border x:Name="DropMarker" Width="3" CornerRadius="1.5" Opacity="0" IsHitTestVisible="False" />
+            <Canvas x:Name="IconLayer" IsHitTestVisible="False" />
+            <Canvas x:Name="IndicatorLayer" IsHitTestVisible="False" />
+            <Border x:Name="Tooltip"
+                    Opacity="0"
+                    IsHitTestVisible="False"
+                    CornerRadius="7"
+                    Padding="10,4,10,5">
+                <TextBlock x:Name="TooltipText" FontSize="12.5" />
+            </Border>
+        </Canvas>
+    </Grid>
+</Window>

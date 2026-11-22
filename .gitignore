@@ -1,0 +1,15 @@
+bin/
+obj/
+.vs/
+*.user
+docs/test-results/
+docs/last-run.log
+docs/diag/
+# Diagnóstico local / transferência (contêm caminhos e dados da máquina)
+docs/env-report.txt
+scripts/.transfer.tgz
+scripts/.edge-step
+_to_delete/
+*.log
+dist/
+installer/extras/
