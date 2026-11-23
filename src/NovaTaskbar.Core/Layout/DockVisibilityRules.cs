@@ -26,6 +26,13 @@ public static class DockVisibilityRules
          || (fg.ExeName is { } exe && Browsers.Contains(exe)));
 
     /// <summary>
+    /// O cursor pode trazer o Dock de volta? Não quando ele já está escondido e há um app em tela cheia
+    /// (vídeo, jogo, F11): passar ou rolar o mouse na parte de baixo da tela não deve fazê-lo aparecer.
+    /// </summary>
+    public static bool PointerMayReveal(ForegroundApp fg, bool currentlyHidden) =>
+        !(currentlyHidden && fg.IsFullscreen && !fg.IsShell && !fg.IsOwn);
+
+    /// <summary>
     /// Decide se o Dock deve estar escondido. <paramref name="pointerNear"/> = cursor no Dock ou na faixa da borda;
     /// <paramref name="busy"/> = menu aberto, arrastando, soltando arquivo.
     /// </summary>

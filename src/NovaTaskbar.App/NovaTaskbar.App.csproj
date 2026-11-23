@@ -18,7 +18,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Product>CleanWinVista</Product>
     <AssemblyTitle>CleanWinVista</AssemblyTitle>
     <Company>ElChef</Company>
@@ -50,5 +50,11 @@
     <ProjectReference Include="..\NovaTaskbar.Core\NovaTaskbar.Core.csproj" />
     <ProjectReference Include="..\NovaTaskbar.Windows\NovaTaskbar.Windows.csproj" />
   </ItemGroup>
+
+  <!-- Publicação não empacotada: o WinUI não copia o NovaTaskbar.pri (XAML compilado do Dock) para a pasta publicada.
+       Sem ele o app instalado quebra com XamlParseException ao abrir o Dock. -->
+  <Target Name="CopyAppPriToPublish" AfterTargets="Publish">
+    <Copy SourceFiles="$(OutDir)$(AssemblyName).pri" DestinationFolder="$(PublishDir)" Condition="Exists('$(OutDir)$(AssemblyName).pri')" />
+  </Target>
 
 </Project>

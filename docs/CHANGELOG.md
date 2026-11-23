@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.2 — 22/11/2026 — Instalador corrigido
+
+- **Instalador fechava ao clicar Install/Update** (falha nativa `0xc000027b` em `Microsoft.UI.Xaml.dll`): o `ProgressBar` do WinUI derrubava o processo ao montar a página de progresso. Trocado por uma barra própria no visual do Dock.
+- **App instalado não abria** (`XamlParseException` no `DockWindow`): a publicação não copiava o `NovaTaskbar.pri` (XAML compilado). O `.csproj` agora o copia (`CopyAppPriToPublish`) e o `RUN.cmd` acusa `ERRO` se faltar. Afetava também 1.0.0 e 1.0.1.
+- Assistente: cartão de conteúdo usa os pincéis do tema escuro (antes ficava branco com texto branco em Windows no tema claro).
+- Instalador registra etapas e erros em `%TEMP%\CleanWinVista-setup.log`; qualquer falha volta à tela de opções com a mensagem.
+- **Auto-ocultar**: com app em tela cheia, passar ou rolar o mouse na parte de baixo da tela não traz mais o Dock escondido (`DockVisibilityRules.PointerMayReveal`, teste novo).
+- Testado de ponta a ponta no PC: `CleanWinVista-Setup-1.0.2.exe` → Update → Finish → Dock instalado abrindo.
+
 ## 1.0.1 — 22/11/2026 — Nova identidade visual
 
 - **Novo logo**: gato sentado de perfil, em silhueta (navy `#16243F` / azul `#3F7CC4`), com o nome em DM Sans.

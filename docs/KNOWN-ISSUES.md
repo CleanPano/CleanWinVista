@@ -32,7 +32,7 @@
 | 28 | Traduções (19 idiomas) feitas por IA; podem ter termos pouco naturais. | Revisão por falantes nativos; corrigir em `i18n\<código>.json`. |
 | 29 | Trocar o idioma exige reiniciar o app. | Intencional (botão "Restart now"). |
 | 30 | Instalador não é assinado digitalmente: o SmartScreen pode avisar "Editor desconhecido". | Assinatura de código antes de distribuir. |
-| 31 | Instalação completa (copiar, atalhos, registro), desinstalação e a abertura do instalador do CleanPano **não testadas na tela**; testados: assistente, troca de idioma ao vivo, RTL, página de opções com a opção CleanPano (hash conferido) e o .exe único abrindo o assistente. | Testar instalar/desinstalar. |
+| 31 | Instalar/atualizar testado na tela (1.0.2). Desinstalação e o instalador do CleanPano ainda **não testados na tela**. | Testar desinstalar. |
 | 32 | Painéis com material Acrylic/Mica: sobre fundos muito claros, botões e texto claros perdem contraste (mesma transparência do Dock). | Aumentar "Intensidade da cor" nas Configurações ou usar tema claro. |
 | 33 | Submenus (ex.: Posição no menu do Dock) e listas suspensas dentro dos painéis ainda usam o fundo padrão do Windows. | Estilizar na próxima rodada. |
 | 34 | O botão Fechar (X) do instalador tem pouco contraste sobre fundos claros (vidro). | Usar Cancelar; ajustar cor dos botões da barra de título. |

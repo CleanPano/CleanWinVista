@@ -48,7 +48,7 @@ public sealed partial class DockWindow
         if (_closing || _geo is null) return;
         var fg = _foreground.Read();
         NativeMethods.GetCursorPos(out var pt);
-        bool near = PointerNearDock(pt);
+        bool near = PointerNearDock(pt) && DockVisibilityRules.PointerMayReveal(fg, _hide.Target >= 0.5);
         var now = DateTime.UtcNow;
         if (near) _pointerLeftUtc = DateTime.MaxValue;
         else if (_pointerLeftUtc == DateTime.MaxValue) _pointerLeftUtc = now;

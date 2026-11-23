@@ -78,7 +78,9 @@ internal static class Installer
     {
         string source = AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar);
         string target = ResolveTarget(o.Folder);
+        LogStep("Install: StopRunning");
         StopRunning();
+        LogStep("Install: copy");
         Directory.CreateDirectory(target);
 
         if (!string.Equals(source, target, StringComparison.OrdinalIgnoreCase))
@@ -103,6 +105,7 @@ internal static class Installer
         }
 
         string exe = Path.Combine(target, ExeName);
+        LogStep("Install: shortcuts/registry");
         progress.Report((0.92, "Shortcuts"));
         if (o.StartMenu) ShortcutWriter.Create(StartMenuLink, exe, null, "macOS-style dock for Windows");
         else TryDelete(StartMenuLink);
@@ -221,6 +224,22 @@ internal static class Installer
             p?.WaitForExit();
         }
         catch (System.ComponentModel.Win32Exception) { } // UAC recusado ou cancelado
+    }
+
+    /// <summary>Log do instalador: %TEMP%\CleanWinVista-setup.log (o app ainda não tem logger nesse modo).</summary>
+    [ThreadStatic] private static bool _logging;
+    public static void LogStep(string step)
+    {
+        try { File.AppendAllText(Path.Combine(Path.GetTempPath(), "CleanWinVista-setup.log"), $"[{DateTime.Now:HH:mm:ss.fff}] {step}{Environment.NewLine}"); }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException) { }
+    }
+    public static void LogError(string where, Exception ex)
+    {
+        if (_logging) return; // FirstChanceException dentro do próprio log não pode virar recursão
+        _logging = true;
+        try { File.AppendAllText(Path.Combine(Path.GetTempPath(), "CleanWinVista-setup.log"), $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] v{Version} {where}: {ex}{Environment.NewLine}"); }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException) { }
+        finally { _logging = false; }
     }
 
     private static void TryDelete(string path)

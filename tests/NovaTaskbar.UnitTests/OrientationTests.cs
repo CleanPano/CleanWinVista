@@ -117,6 +117,17 @@ public class VisibilityRuleTests
     }
 
     [Fact]
+    public void Fullscreen_HiddenDock_IgnoresPointer()
+    {
+        var video = new ForegroundApp("vlc.exe", "Qt5QWindowIcon", IsFullscreen: true, IsShell: false, IsOwn: false);
+        var normal = new ForegroundApp("notepad.exe", "Notepad", false, false, false);
+        Assert.False(DockVisibilityRules.PointerMayReveal(video, currentlyHidden: true));
+        Assert.True(DockVisibilityRules.PointerMayReveal(video, currentlyHidden: false));
+        Assert.True(DockVisibilityRules.PointerMayReveal(normal, currentlyHidden: true));
+    }
+
+
+    [Fact]
     public void Maximized_IsDodged() =>
         Assert.True(DockVisibilityRules.ShouldDodge(new ForegroundApp("notepad.exe", "Notepad", false, false, false, IsMaximized: true)));
 

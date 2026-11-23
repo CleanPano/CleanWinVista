@@ -270,28 +270,49 @@ internal sealed class SetupWindow : Window
 
     // ---------------------------------------------------------------- 3. instalando
 
-    private ProgressBar? _bar;
+    // Barra própria (trilho + preenchimento), no visual do Dock. O ProgressBar do WinUI derrubava o processo
+    // (falha nativa 0xc000027b em Microsoft.UI.Xaml.dll) ao montar esta página.
+    private Border? _barFill;
+    private Grid? _barTrack;
+    private double _barFraction;
     private TextBlock? _file;
 
     private FrameworkElement ProgressPage(string title)
     {
         var p = Page(title, L.T("Please wait a moment."));
-        _bar = new ProgressBar { Minimum = 0, Maximum = 1, Margin = new Thickness(0, 24, 0, 8) };
+        _barFraction = 0;
+        _barFill = new Border { HorizontalAlignment = HorizontalAlignment.Left, Width = 0, CornerRadius = new CornerRadius(3), Background = Res("TextFillColorPrimaryBrush") };
+        _barTrack = new Grid { Height = 6, CornerRadius = new CornerRadius(3), Margin = new Thickness(0, 24, 0, 8), Background = Res("ControlStrokeColorDefaultBrush") };
+        _barTrack.Children.Add(_barFill);
+        _barTrack.SizeChanged += (_, _) => SetProgress(_barFraction);
         _file = new TextBlock { FontSize = 11, Opacity = 0.55, TextTrimming = TextTrimming.CharacterEllipsis };
-        p.Children.Add(_bar);
+        p.Children.Add(_barTrack);
         p.Children.Add(_file);
         return p;
     }
 
+    private void SetProgress(double fraction)
+    {
+        _barFraction = Math.Clamp(fraction, 0, 1);
+        if (_barFill != null && _barTrack != null) _barFill.Width = _barTrack.ActualWidth * _barFraction;
+    }
+
     private async Task InstallAsync()
     {
+        Installer.LogStep("InstallAsync: start");
         _step = Step.Installing;
         Render();
-        var progress = new Progress<(double Fraction, string File)>(x => { if (_bar != null) _bar.Value = x.Fraction; if (_file != null) _file.Text = x.File; });
+        Installer.LogStep("InstallAsync: page rendered");
+        var progress = new Progress<(double Fraction, string File)>(x => { SetProgress(x.Fraction); if (_file != null) _file.Text = x.File; });
         var opts = new Installer.Options(_folder, _language, _startWithWindows, _startMenu, _desktop, _cleanPano && _cleanPanoAvailable);
         string? error = null;
         try { await Task.Run(() => Installer.Install(opts, progress)); }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.Security.SecurityException) { error = ex.Message; }
+        catch (Exception ex)
+        {
+            // Qualquer falha volta para a tela de opções com a mensagem (antes: erro inesperado = tela "Installing…" congelada).
+            error = ex.Message;
+            Installer.LogError("Install", ex);
+        }
         if (error != null)
         {
             _step = Step.Options;
@@ -299,6 +320,7 @@ internal sealed class SetupWindow : Window
             _page.Children.Add(new TextBlock { Text = L.T("Installation failed:") + " " + error, Foreground = Res("SystemFillColorCriticalBrush"), VerticalAlignment = VerticalAlignment.Bottom, TextWrapping = TextWrapping.Wrap });
             return;
         }
+        Installer.LogStep("InstallAsync: done");
         _step = Step.Done;
         Render();
     }
@@ -341,7 +363,7 @@ internal sealed class SetupWindow : Window
         {
             _step = Step.Uninstalling;
             Render();
-            _bar!.IsIndeterminate = true;
+            SetProgress(0.5);
             await Task.Run(() => Installer.Uninstall(_removeData));
             _step = Step.Removed;
             Render();
@@ -387,6 +409,19 @@ internal sealed class SetupWindow : Window
         Source = new BitmapImage(new Uri(Path.Combine(AppContext.BaseDirectory, "Assets", "CleanWinVista-64.png"))),
     };
 
-    private static Brush Res(string key) =>
-        Application.Current.Resources.TryGetValue(key, out var v) && v is Brush b ? b : new SolidColorBrush(Colors.Gray);
+    /// <summary>Pincel do tema ESCURO (a janela é sempre escura; o tema do app pode ser claro).</summary>
+    private static Brush Res(string key)
+    {
+        if (FindDark(Application.Current.Resources, key) is Brush dark) return dark;
+        return Application.Current.Resources.TryGetValue(key, out var v) && v is Brush b ? b : new SolidColorBrush(Colors.Gray);
+    }
+
+    private static object? FindDark(ResourceDictionary d, string key)
+    {
+        foreach (var name in new[] { "Dark", "Default" }) // no WinUI o tema escuro costuma ser a chave "Default"
+            if (d.ThemeDictionaries.TryGetValue(name, out var t) && t is ResourceDictionary td && td.TryGetValue(key, out var v)) return v;
+        foreach (var m in d.MergedDictionaries)
+            if (FindDark(m, key) is { } found) return found;
+        return null;
+    }
 }

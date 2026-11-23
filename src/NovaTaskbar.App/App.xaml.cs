@@ -34,20 +34,26 @@ public partial class App : Application
         UnhandledException += (_, e) =>
         {
             _log?.LogCritical(e.Exception, "Exceção não tratada no UI thread");
+            if (_log is null) Setup.Installer.LogError("UI", e.Exception);
             e.Handled = true; // mantém o Dock vivo; o erro fica registrado no log
         };
         AppDomain.CurrentDomain.UnhandledException += (_, e) =>
+        {
             _log?.LogCritical(e.ExceptionObject as Exception, "Exceção fatal");
+            if (_log is null && e.ExceptionObject is Exception fx) Setup.Installer.LogError("Fatal", fx);
+        };
         // Diagnóstico: registra a pilha de qualquer falha de ativação COM/WinRT (uma vez por tipo).
         var seenActivation = new System.Collections.Concurrent.ConcurrentDictionary<string, byte>();
         AppDomain.CurrentDomain.FirstChanceException += (_, e) =>
         {
+            if (_log is null && Environment.GetCommandLineArgs().Contains("--setup")) Setup.Installer.LogError("FirstChance", e.Exception);
             if (e.Exception is System.Runtime.InteropServices.COMException { HResult: unchecked((int)0x80040111) } c && seenActivation.TryAdd(c.Message, 0))
                 _log?.LogWarning("Ativação COM falhou: {Message}\n{Stack}", c.Message, Environment.StackTrace);
         };
         TaskScheduler.UnobservedTaskException += (_, e) =>
         {
             _log?.LogError(e.Exception, "Task não observada");
+            if (_log is null) Setup.Installer.LogError("Task", e.Exception);
             e.SetObserved();
         };
     }
