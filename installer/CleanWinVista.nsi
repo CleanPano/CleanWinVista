@@ -1,11 +1,11 @@
 ; CleanWinVista - instalador de arquivo único.
 ; Só empacota a pasta publicada (dist\app) e abre o assistente do próprio app (NovaTaskbar.exe --setup),
 ; que tem o visual do Dock e os 20 idiomas. Instalação por usuário: sem admin, sem tocar em pastas do sistema.
-; Gerar (Linux):   makensis -DVERSION=1.0.0 installer/CleanWinVista.nsi
-; Gerar (Windows): makensis /DVERSION=1.0.0 installer\CleanWinVista.nsi
+; Gerar (Linux):   makensis -DVERSION=1.0.1 installer/CleanWinVista.nsi
+; Gerar (Windows): makensis /DVERSION=1.0.1 installer\CleanWinVista.nsi
 Unicode true
 !ifndef VERSION
-  !define VERSION "1.0.0"
+  !define VERSION "1.0.1"
 !endif
 
 Name "CleanWinVista"

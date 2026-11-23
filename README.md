@@ -1,6 +1,9 @@
 <div align="center">
 
-# CleanWinVista
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/logo-dark.svg">
+  <img src="docs/images/logo-light.svg" alt="CleanWinVista" width="420">
+</picture>
 
 **A clean, macOS-style floating dock for Windows 11.**
 Real glass, smooth magnification, minimalist widgets and 20 languages. Free and private.

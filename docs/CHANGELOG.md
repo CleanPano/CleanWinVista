@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.1 — 22/11/2026 — Nova identidade visual
+
+- **Novo logo**: gato sentado de perfil, em silhueta (navy `#16243F` / azul `#3F7CC4`), com o nome em DM Sans.
+- **Novo ícone do app** (`Assets\CleanWinVista.ico`, 16–256 px): gato branco sobre quadrado azul; versão simplificada em 16–24 px. Vale para o exe, janelas, barra de tarefas e instalador.
+- `Assets\CleanWinVista-64.png` atualizado (Configurações e assistente de instalação).
+- README com o logo (versões para tema claro e escuro) e imagem de prévia social (`docs\images\social-preview.png`).
+
 ## 1.0.0 — 22/11/2026 — Inglês, 20 idiomas e instalador
 
 - **Idioma principal: inglês.** Todo o texto do app parte do inglês; traduções em `i18n\<código>.json` ao lado do exe.
