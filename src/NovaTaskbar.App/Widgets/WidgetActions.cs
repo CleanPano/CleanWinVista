@@ -65,13 +65,14 @@ internal static class WidgetActions
     /// <summary>Lado em que os painéis abrem (para longe da borda da tela). Definido pelo DockWindow antes do clique.</summary>
     public static FlyoutPlacementMode PanelPlacement { get; set; } = FlyoutPlacementMode.Top;
 
-    public static void ShowFlyout(UIElement content, FrameworkElement anchor, global::Windows.Foundation.Point at)
+    public static Flyout ShowFlyout(UIElement content, FrameworkElement anchor, global::Windows.Foundation.Point at)
     {
         var f = new Flyout { Content = content, ShouldConstrainToRootBounds = false, Placement = PanelPlacement };
         PanelStyle.Apply(f, wide: true);
         OutsideClickDismiss.Attach(f);
         TakeKeyboard(f);
         f.ShowAt(anchor, new FlyoutShowOptions { Position = at, Placement = PanelPlacement });
+        return f;
     }
 
     /// <summary>

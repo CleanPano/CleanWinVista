@@ -11,6 +11,20 @@ public static partial class NativeMethods
 
     [DllImport("user32.dll")]
     public static extern IntPtr GetKeyboardLayout(uint idThread);
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct GUITHREADINFO
+    {
+        public int cbSize;
+        public uint flags;
+        public IntPtr hwndActive, hwndFocus, hwndCapture, hwndMenuOwner, hwndMoveSize, hwndCaret;
+        public int caretLeft, caretTop, caretRight, caretBottom;
+    }
+
+    /// <summary>idThread = 0: a thread em primeiro plano (a janela com o foco pode ser de outro processo que a janela principal).</summary>
+    [DllImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool GetGUIThreadInfo(uint idThread, ref GUITHREADINFO info);
 }
 
 public static partial class NativeMethods

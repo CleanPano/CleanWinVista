@@ -81,7 +81,10 @@ internal abstract class PanelWidget : WidgetView
     public override bool Step(double dt) => _ring?.Step(dt) ?? false;
 
     public override void OnClick(FrameworkElement anchor, global::Windows.Foundation.Point at) =>
-        WidgetActions.ShowFlyout(BuildPanel(), anchor, at);
+        OpenPanel = WidgetActions.ShowFlyout(BuildPanel(), anchor, at);
+
+    /// <summary>Último painel aberto por este widget (para fechá-lo depois de uma ação).</summary>
+    protected Flyout? OpenPanel { get; private set; }
 
     protected abstract FrameworkElement BuildPanel();
 

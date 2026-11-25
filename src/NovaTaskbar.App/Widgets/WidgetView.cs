@@ -29,6 +29,8 @@ internal abstract class WidgetView
     public double Width { get; }
     public Grid Root { get; }
     public virtual string Tooltip => "";
+    /// <summary>false = só informativo: o clique não faz nada nem "afunda" o item (ainda dá para arrastar e usar o menu).</summary>
+    public virtual bool Clickable => true;
 
     public abstract void Update(WidgetData d);
     /// <summary>Avança animações próprias; true enquanto ainda se move.</summary>

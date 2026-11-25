@@ -43,6 +43,7 @@ internal static class WidgetLabels
         WidgetKind.Weather => L.T("Weather (internet)"),
         WidgetKind.Calendar => L.T("iCal agenda (internet)"),
         WidgetKind.Services => L.T("Services: GitHub, Stripe… (internet)"),
+        WidgetKind.Power => L.T("Power (lock, sleep, restart, shut down)"),
         _ => kind.ToString(),
     };
 
@@ -82,6 +83,7 @@ internal static class WidgetLabels
         WidgetKind.Weather => Glyphs.Weather,
         WidgetKind.Calendar => Glyphs.Calendar,
         WidgetKind.Services => Glyphs.Services,
+        WidgetKind.Power => Glyphs.Power,
         _ => "",
     };
 

@@ -50,6 +50,21 @@ public sealed partial class DockWindow
         NativeMethods.GetCursorPos(out var pt);
         bool near = PointerNearDock(pt) && DockVisibilityRules.PointerMayReveal(fg, _hide.Target >= 0.5);
         var now = DateTime.UtcNow;
+
+        // Dock trazido pelo mouse por cima de um app que o faria sumir (tela cheia, maximizado, navegador…):
+        // um clique fora do Dock e dos seus painéis o esconde na hora, sem espera nem animação.
+        bool clicked = NewClick();
+        if (clicked && _hide.Target < 0.5 && !_dragging && !_dropHover
+            && DockVisibilityRules.ShouldHide(_settings.Current.Behavior.Visibility, fg, false, false)
+            && !NovaTaskbar.App.Widgets.OutsideClickDismiss.OverOwnWindow())
+        {
+            _pointerLeftUtc = DateTime.MinValue;
+            SetHidden(true);
+            _hide.Snap(1);
+            EnsureRendering();
+            return;
+        }
+
         if (near) _pointerLeftUtc = DateTime.MaxValue;
         else if (_pointerLeftUtc == DateTime.MaxValue) _pointerLeftUtc = now;
 
@@ -57,6 +72,23 @@ public sealed partial class DockWindow
         bool hide = DockVisibilityRules.ShouldHide(_settings.Current.Behavior.Visibility, fg, near, busy);
         if (hide && _hide.Target < 0.5 && now - _pointerLeftUtc < HideDelay) return; // acabou de sair do Dock: espera um pouco
         SetHidden(hide);
+    }
+
+    private bool _mouseWasDown;
+
+    /// <summary>Um botão do mouse foi pressionado desde o último tick (inclui cliques mais curtos que os 100 ms do timer).</summary>
+    private bool NewClick()
+    {
+        bool down = false, since = false;
+        foreach (int vk in (ReadOnlySpan<int>)[0x01, 0x02, 0x04]) // esquerdo, direito, meio
+        {
+            short s = NativeMethods.GetAsyncKeyState(vk);
+            down |= (s & 0x8000) != 0;
+            since |= (s & 1) != 0;
+        }
+        bool click = !_mouseWasDown && (down || since);
+        _mouseWasDown = down;
+        return click;
     }
 
     private void SetHidden(bool hidden)

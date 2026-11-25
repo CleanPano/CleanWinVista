@@ -174,6 +174,7 @@ internal sealed class NotesWidget(double iconSize, double width, WidgetContext c
         fmt.Children.Add(IconButton("", L.T("Underline (Ctrl+U)"), () => Toggle(editor, f => f.Underline = f.Underline == UnderlineType.None ? UnderlineType.Single : UnderlineType.None)));
         fmt.Children.Add(IconButton("", L.T("Strikethrough"), () => Toggle(editor, f => f.Strikethrough = FormatEffect.Toggle)));
         fmt.Children.Add(IconButton("", L.T("Bulleted list"), () => Bullets(editor)));
+        foreach (var c in fmt.Children) if (c is Button fb) fb.AllowFocusOnInteraction = false; // o editor mantém o foco (sem piscar)
         Grid.SetColumn(fmt, 1);
         top.Children.Add(fmt);
 

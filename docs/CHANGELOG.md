@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.0.3 — 24/11/2026 — Botão de energia, idioma do teclado e calculadora sem piscar
+
+- **Novo widget "Power"** (ícone de energia no Dock): Lock, Sleep, Sign out, Restart, Shut down — para quem usa só o Dock, sem a barra do Windows.
+  Sair, reiniciar e desligar pedem confirmação no próprio painel (foco em Cancel). Sem administrador: `LockWorkStation`, `SetSuspendState` e o
+  `shutdown.exe` do System32 com argumentos fixos, sem `/f` (o Windows avisa sobre trabalho não salvo). Ligado por padrão, no fim do Dock. Traduzido nos 20 idiomas.
+- **Calculadora piscava a cada tecla clicada**: o botão pegava o foco e o devolvia à caixa de texto (fundo, cursor e "×" sumiam e voltavam).
+  Os botões do teclado, da barra e do histórico agora não tiram o foco da caixa (`AllowFocusOnInteraction = false`).
+- **Idioma do teclado às vezes não trocava ao clicar**: o pedido ia só para a janela principal do app; agora vai para a janela que tem o foco
+  do teclado (`GetGUIThreadInfo`) e, 250 ms depois, o Dock confere — se o app ignorou, troca pelo atalho do Windows (Win + Espaço).
+- **Auto-ocultar**: com o Dock trazido pelo mouse por cima de um app em tela cheia/maximizado/navegador, clicar fora dele (e dos seus painéis)
+  o esconde na hora, sem espera nem animação.
+- **Relógio analógico é só decorativo**: o clique não faz nada nem "afunda" o item (continua arrastável e com menu de contexto).
+- **Padrão de fábrica = Dock do dono em 24/11/2026**: igual ao anterior + botão de energia ligado no fim. Internet dos widgets continua
+  desligada por padrão (privacidade).
+- Mesmo problema corrigido nos botões de formatação das Notas (negrito, itálico…) e no conversor de bases (as linhas eram recriadas a cada tecla).
+
 ## 1.0.2 — 22/11/2026 — Instalador corrigido
 
 - **Instalador fechava ao clicar Install/Update** (falha nativa `0xc000027b` em `Microsoft.UI.Xaml.dll`): o `ProgressBar` do WinUI derrubava o processo ao montar a página de progresso. Trocado por uma barra própria no visual do Dock.

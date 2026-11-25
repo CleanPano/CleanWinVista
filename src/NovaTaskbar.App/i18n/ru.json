@@ -540,5 +540,14 @@
   "~{0}h{1:00} left": "~{0} ч {1:00} мин осталось",
   "Also install CleanPano, a free PC cleaner by the same developer": "Также установить CleanPano — бесплатную программу очистки ПК от того же разработчика",
   "Its own installer opens after this one; Windows will ask for administrator permission.": "Его установщик откроется после этого; Windows запросит права администратора.",
-  "The CleanPano installer opens when you click Finish.": "Установщик CleanPano откроется, когда вы нажмёте «Готово»."
+  "The CleanPano installer opens when you click Finish.": "Установщик CleanPano откроется, когда вы нажмёте «Готово».",
+  "Power (lock, sleep, restart, shut down)": "Питание (блокировка, сон, перезагрузка, выключение)",
+  "Lock": "Заблокировать",
+  "Sleep": "Спящий режим",
+  "Sign out": "Выйти",
+  "Shut down": "Завершить работу",
+  "Sign out of Windows?": "Выйти из Windows?",
+  "Restart this PC?": "Перезагрузить этот компьютер?",
+  "Shut down this PC?": "Выключить этот компьютер?",
+  "Unsaved work in open apps may be lost.": "Несохранённые данные в открытых приложениях могут быть потеряны."
 }

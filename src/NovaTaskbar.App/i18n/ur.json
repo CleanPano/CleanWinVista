@@ -540,5 +540,14 @@
   "~{0}h{1:00} left": "~{0} گھنٹے {1:00} منٹ باقی",
   "Also install CleanPano, a free PC cleaner by the same developer": "CleanPano بھی انسٹال کریں — اسی ڈیولپر کا مفت PC کلینر",
   "Its own installer opens after this one; Windows will ask for administrator permission.": "اس کا اپنا انسٹالر اس کے بعد کھلے گا؛ Windows ایڈمن اجازت مانگے گا۔",
-  "The CleanPano installer opens when you click Finish.": "ختم کریں پر کلک کرنے پر CleanPano انسٹالر کھلے گا۔"
+  "The CleanPano installer opens when you click Finish.": "ختم کریں پر کلک کرنے پر CleanPano انسٹالر کھلے گا۔",
+  "Power (lock, sleep, restart, shut down)": "پاور (لاک، سلیپ، ری اسٹارٹ، شٹ ڈاؤن)",
+  "Lock": "لاک کریں",
+  "Sleep": "سلیپ",
+  "Sign out": "سائن آؤٹ",
+  "Shut down": "شٹ ڈاؤن کریں",
+  "Sign out of Windows?": "Windows سے سائن آؤٹ کریں؟",
+  "Restart this PC?": "اس PC کو ری اسٹارٹ کریں؟",
+  "Shut down this PC?": "اس PC کو شٹ ڈاؤن کریں؟",
+  "Unsaved work in open apps may be lost.": "کھلی ایپس میں غیر محفوظ کام ضائع ہو سکتا ہے۔"
 }

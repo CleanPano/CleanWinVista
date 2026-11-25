@@ -82,6 +82,7 @@ internal sealed class CalculatorWidget(double iconSize, double width, WidgetCont
                     Content = new TextBlock { Text = h, FontSize = 12, Opacity = 0.65, TextTrimming = TextTrimming.CharacterEllipsis },
                     HorizontalAlignment = HorizontalAlignment.Stretch, HorizontalContentAlignment = HorizontalAlignment.Right,
                     Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent), BorderThickness = new Thickness(0), Padding = new Thickness(4, 1, 4, 1),
+                    AllowFocusOnInteraction = false,
                 };
                 ToolTipService.SetToolTip(b, L.T("Use this result"));
                 b.Click += (_, _) => Insert(input, result.Replace(Group, ""));
@@ -131,7 +132,7 @@ internal sealed class CalculatorWidget(double iconSize, double width, WidgetCont
             angle.Content = ctx.Store.Data.CalcRadians ? "RAD" : "DEG";
             Preview();
         };
-        var sci = new ToggleButton { Content = "f(x)", IsChecked = data.CalcScientific, Padding = new Thickness(8, 3, 8, 4), FontSize = 12 };
+        var sci = new ToggleButton { Content = "f(x)", IsChecked = data.CalcScientific, Padding = new Thickness(8, 3, 8, 4), FontSize = 12, AllowFocusOnInteraction = false };
         ToolTipService.SetToolTip(sci, L.T("Scientific functions"));
         left.Children.Add(angle);
         left.Children.Add(sci);
@@ -235,6 +236,8 @@ internal sealed class CalculatorWidget(double iconSize, double width, WidgetCont
             {
                 Content = label, HorizontalAlignment = HorizontalAlignment.Stretch, Height = 38, FontSize = op ? 17 : 15,
                 FontWeight = op || label == "=" ? FontWeights.SemiBold : FontWeights.Normal,
+                // O clique não leva o foco: a caixa de texto continua focada e não "pisca" (foco sai → volta) a cada tecla.
+                AllowFocusOnInteraction = false,
             };
             if (label == "=" && Application.Current.Resources.TryGetValue("AccentButtonStyle", out var st) && st is Style style) b.Style = style;
             b.Click += (_, _) => press(value);
@@ -247,7 +250,7 @@ internal sealed class CalculatorWidget(double iconSize, double width, WidgetCont
 
     private static Button SmallButton(string text, string tip)
     {
-        var b = new Button { Content = text, Padding = new Thickness(8, 3, 8, 4), FontSize = 12 };
+        var b = new Button { Content = text, Padding = new Thickness(8, 3, 8, 4), FontSize = 12, AllowFocusOnInteraction = false };
         ToolTipService.SetToolTip(b, tip);
         return b;
     }
@@ -309,26 +312,34 @@ internal sealed class CalculatorWidget(double iconSize, double width, WidgetCont
         var input = new TextBox { Header = L.T("Number"), PlaceholderText = "ex.: 255, FF, 1010", FontSize = 16 };
         var from = new ComboBox { Header = L.T("Base"), ItemsSource = NumberBases.All.Select(b => $"{b.Name} ({b.Base})").ToList(), SelectedIndex = 0, MinWidth = 120 };
         var outputs = new StackPanel { Spacing = 4 };
+        // As linhas são criadas uma vez; a cada tecla só o texto muda (recriar tudo fazia a área piscar).
+        var invalid = Hint(L.T("Invalid number for this base (64-bit integers)."));
+        invalid.Visibility = Visibility.Collapsed;
+        outputs.Children.Add(invalid);
+        var rows = new List<(Grid Row, TextBlock Value, int Base)>();
+        foreach (var (b, name) in NumberBases.All)
+        {
+            var row = new Grid { Visibility = Visibility.Collapsed };
+            row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(46) });
+            row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            row.Children.Add(new TextBlock { Text = name, Opacity = 0.6, FontSize = 12, VerticalAlignment = VerticalAlignment.Center });
+            var value = new TextBlock { FontFamily = new FontFamily("Consolas"), FontSize = 15, IsTextSelectionEnabled = true, TextWrapping = TextWrapping.Wrap };
+            Grid.SetColumn(value, 1);
+            row.Children.Add(value);
+            outputs.Children.Add(row);
+            rows.Add((row, value, b));
+        }
         void Convert()
         {
-            outputs.Children.Clear();
             int numberBase = NumberBases.All[Math.Max(0, from.SelectedIndex)].Base;
-            if (input.Text.Trim().Length == 0) return;
-            if (!NumberBases.TryParse(input.Text, numberBase, out long v))
+            bool empty = input.Text.Trim().Length == 0;
+            long v = 0;
+            bool ok = !empty && NumberBases.TryParse(input.Text, numberBase, out v);
+            invalid.Visibility = !empty && !ok ? Visibility.Visible : Visibility.Collapsed;
+            foreach (var (row, value, b) in rows)
             {
-                outputs.Children.Add(Hint(L.T("Invalid number for this base (64-bit integers).")));
-                return;
-            }
-            foreach (var (b, name) in NumberBases.All)
-            {
-                var row = new Grid();
-                row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(46) });
-                row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                row.Children.Add(new TextBlock { Text = name, Opacity = 0.6, FontSize = 12, VerticalAlignment = VerticalAlignment.Center });
-                var value = new TextBlock { Text = NumberBases.Format(v, b), FontFamily = new FontFamily("Consolas"), FontSize = 15, IsTextSelectionEnabled = true, TextWrapping = TextWrapping.Wrap };
-                Grid.SetColumn(value, 1);
-                row.Children.Add(value);
-                outputs.Children.Add(row);
+                if (ok) value.Text = NumberBases.Format(v, b);
+                row.Visibility = ok ? Visibility.Visible : Visibility.Collapsed;
             }
         }
         input.TextChanged += (_, _) => Convert();

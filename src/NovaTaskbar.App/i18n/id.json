@@ -540,5 +540,14 @@
   "~{0}h{1:00} left": "~{0} j {1:00} m tersisa",
   "Also install CleanPano, a free PC cleaner by the same developer": "Pasang juga CleanPano, pembersih PC gratis dari pengembang yang sama",
   "Its own installer opens after this one; Windows will ask for administrator permission.": "Penginstalnya sendiri terbuka setelah ini; Windows akan meminta izin administrator.",
-  "The CleanPano installer opens when you click Finish.": "Penginstal CleanPano terbuka saat Anda mengklik Selesai."
+  "The CleanPano installer opens when you click Finish.": "Penginstal CleanPano terbuka saat Anda mengklik Selesai.",
+  "Power (lock, sleep, restart, shut down)": "Daya (kunci, tidur, mulai ulang, matikan)",
+  "Lock": "Kunci",
+  "Sleep": "Tidur",
+  "Sign out": "Keluar",
+  "Shut down": "Matikan",
+  "Sign out of Windows?": "Keluar dari Windows?",
+  "Restart this PC?": "Mulai ulang PC ini?",
+  "Shut down this PC?": "Matikan PC ini?",
+  "Unsaved work in open apps may be lost.": "Pekerjaan yang belum disimpan di aplikasi yang terbuka bisa hilang."
 }

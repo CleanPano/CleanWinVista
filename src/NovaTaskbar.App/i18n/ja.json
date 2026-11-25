@@ -540,5 +540,14 @@
   "~{0}h{1:00} left": "残り約 {0} 時間 {1:00} 分",
   "Also install CleanPano, a free PC cleaner by the same developer": "CleanPano もインストールする（同じ開発者による無料の PC クリーナー）",
   "Its own installer opens after this one; Windows will ask for administrator permission.": "このあと専用のインストーラーが開き、Windows が管理者の許可を求めます。",
-  "The CleanPano installer opens when you click Finish.": "[完了] をクリックすると CleanPano のインストーラーが開きます。"
+  "The CleanPano installer opens when you click Finish.": "[完了] をクリックすると CleanPano のインストーラーが開きます。",
+  "Power (lock, sleep, restart, shut down)": "電源（ロック、スリープ、再起動、シャットダウン）",
+  "Lock": "ロック",
+  "Sleep": "スリープ",
+  "Sign out": "サインアウト",
+  "Shut down": "シャットダウン",
+  "Sign out of Windows?": "Windows からサインアウトしますか？",
+  "Restart this PC?": "この PC を再起動しますか？",
+  "Shut down this PC?": "この PC をシャットダウンしますか？",
+  "Unsaved work in open apps may be lost.": "開いているアプリの未保存の作業は失われる可能性があります。"
 }

@@ -540,5 +540,14 @@
   "~{0}h{1:00} left": "약 {0}시간 {1:00}분 남음",
   "Also install CleanPano, a free PC cleaner by the same developer": "CleanPano도 설치(같은 개발자의 무료 PC 정리 도구)",
   "Its own installer opens after this one; Windows will ask for administrator permission.": "이 설치가 끝나면 전용 설치 프로그램이 열리고 Windows에서 관리자 권한을 요청합니다.",
-  "The CleanPano installer opens when you click Finish.": "[마침]을 클릭하면 CleanPano 설치 프로그램이 열립니다."
+  "The CleanPano installer opens when you click Finish.": "[마침]을 클릭하면 CleanPano 설치 프로그램이 열립니다.",
+  "Power (lock, sleep, restart, shut down)": "전원(잠금, 절전, 다시 시작, 종료)",
+  "Lock": "잠금",
+  "Sleep": "절전",
+  "Sign out": "로그아웃",
+  "Shut down": "시스템 종료",
+  "Sign out of Windows?": "Windows에서 로그아웃할까요?",
+  "Restart this PC?": "이 PC를 다시 시작할까요?",
+  "Shut down this PC?": "이 PC를 종료할까요?",
+  "Unsaved work in open apps may be lost.": "열려 있는 앱의 저장하지 않은 작업이 손실될 수 있습니다."
 }

@@ -177,6 +177,7 @@ internal sealed class WidgetHost : IDisposable
             WidgetKind.Weather => new WeatherWidget(iconSize, width, Context),
             WidgetKind.Calendar => new CalendarWidget(iconSize, width, Context),
             WidgetKind.Services => new ServicesWidget(iconSize, width, Context),
+            WidgetKind.Power => new PowerWidget(iconSize, width, Context),
             _ => throw new ArgumentOutOfRangeException(nameof(kind)),
         };
         return v;

@@ -540,5 +540,14 @@
   "~{0}h{1:00} left": "~{0} Std. {1:00} übrig",
   "Also install CleanPano, a free PC cleaner by the same developer": "Auch CleanPano installieren, ein kostenloser PC-Reiniger vom selben Entwickler",
   "Its own installer opens after this one; Windows will ask for administrator permission.": "Sein eigenes Installationsprogramm öffnet sich danach; Windows fragt nach Administratorrechten.",
-  "The CleanPano installer opens when you click Finish.": "Das CleanPano-Installationsprogramm öffnet sich, wenn Sie auf Fertig stellen klicken."
+  "The CleanPano installer opens when you click Finish.": "Das CleanPano-Installationsprogramm öffnet sich, wenn Sie auf Fertig stellen klicken.",
+  "Power (lock, sleep, restart, shut down)": "Energie (sperren, Energie sparen, neu starten, herunterfahren)",
+  "Lock": "Sperren",
+  "Sleep": "Energie sparen",
+  "Sign out": "Abmelden",
+  "Shut down": "Herunterfahren",
+  "Sign out of Windows?": "Von Windows abmelden?",
+  "Restart this PC?": "Diesen PC neu starten?",
+  "Shut down this PC?": "Diesen PC herunterfahren?",
+  "Unsaved work in open apps may be lost.": "Nicht gespeicherte Arbeit in geöffneten Apps kann verloren gehen."
 }

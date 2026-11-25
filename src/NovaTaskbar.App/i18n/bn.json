@@ -540,5 +540,14 @@
   "~{0}h{1:00} left": "~{0} ঘ {1:00} মি বাকি",
   "Also install CleanPano, a free PC cleaner by the same developer": "CleanPano-ও ইনস্টল করুন — একই ডেভেলপারের বিনামূল্যের PC ক্লিনার",
   "Its own installer opens after this one; Windows will ask for administrator permission.": "এর নিজস্ব ইনস্টলার এরপর খুলবে; Windows অ্যাডমিন অনুমতি চাইবে।",
-  "The CleanPano installer opens when you click Finish.": "শেষ করুন ক্লিক করলে CleanPano ইনস্টলার খুলবে।"
+  "The CleanPano installer opens when you click Finish.": "শেষ করুন ক্লিক করলে CleanPano ইনস্টলার খুলবে।",
+  "Power (lock, sleep, restart, shut down)": "পাওয়ার (লক, স্লিপ, রিস্টার্ট, শাট ডাউন)",
+  "Lock": "লক করুন",
+  "Sleep": "স্লিপ",
+  "Sign out": "সাইন আউট",
+  "Shut down": "শাট ডাউন করুন",
+  "Sign out of Windows?": "Windows থেকে সাইন আউট করবেন?",
+  "Restart this PC?": "এই পিসি রিস্টার্ট করবেন?",
+  "Shut down this PC?": "এই পিসি শাট ডাউন করবেন?",
+  "Unsaved work in open apps may be lost.": "খোলা অ্যাপে অসংরক্ষিত কাজ হারিয়ে যেতে পারে।"
 }

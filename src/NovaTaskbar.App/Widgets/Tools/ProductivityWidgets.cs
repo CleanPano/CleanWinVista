@@ -258,6 +258,7 @@ internal sealed class AnalogClockWidget : WidgetView
     };
 
     public override string Tooltip => DateTime.Now.ToString("D", L.Culture) + " · " + DateTime.Now.ToString("t", L.Culture);
+    public override bool Clickable => false; // decorativo: só mostra a hora
 
     public override void Update(WidgetData d)
     {

@@ -37,6 +37,16 @@ public static class ScreenTools
         SendInput((uint)inputs.Length, inputs, Marshal.SizeOf<INPUT>());
     }
 
+    /// <summary>Avança o idioma do teclado pelo atalho do Windows (Win + Espaço), <paramref name="steps"/> vezes.</summary>
+    public static void CycleInputLanguage(int steps)
+    {
+        const ushort VK_LWIN = 0x5B, VK_SPACE = 0x20;
+        var inputs = new List<INPUT> { Key(VK_LWIN, false) };
+        for (int i = 0; i < Math.Clamp(steps, 1, 20); i++) { inputs.Add(Key(VK_SPACE, false)); inputs.Add(Key(VK_SPACE, true)); }
+        inputs.Add(Key(VK_LWIN, true));
+        SendInput((uint)inputs.Count, inputs.ToArray(), Marshal.SizeOf<INPUT>());
+    }
+
     /// <summary>Pasta de Downloads real do usuário (pode ter sido movida).</summary>
     public static string DownloadsFolder()
     {

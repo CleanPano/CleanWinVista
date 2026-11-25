@@ -540,5 +540,14 @@
   "~{0}h{1:00} left": "~{0} ம {1:00} நி மீதம்",
   "Also install CleanPano, a free PC cleaner by the same developer": "CleanPano-வையும் நிறுவு — அதே டெவலப்பரின் இலவச PC சுத்திகரிப்பான்",
   "Its own installer opens after this one; Windows will ask for administrator permission.": "இதன் சொந்த நிறுவி இதற்குப் பிறகு திறக்கும்; Windows நிர்வாகி அனுமதி கேட்கும்.",
-  "The CleanPano installer opens when you click Finish.": "முடி என்பதைக் கிளிக் செய்ததும் CleanPano நிறுவி திறக்கும்."
+  "The CleanPano installer opens when you click Finish.": "முடி என்பதைக் கிளிக் செய்ததும் CleanPano நிறுவி திறக்கும்.",
+  "Power (lock, sleep, restart, shut down)": "பவர் (பூட்டு, உறக்கம், மறுதொடக்கம், நிறுத்து)",
+  "Lock": "பூட்டு",
+  "Sleep": "உறக்கம்",
+  "Sign out": "வெளியேறு",
+  "Shut down": "நிறுத்து",
+  "Sign out of Windows?": "Windows இலிருந்து வெளியேறவா?",
+  "Restart this PC?": "இந்த கணினியை மறுதொடக்கம் செய்யவா?",
+  "Shut down this PC?": "இந்த கணினியை நிறுத்தவா?",
+  "Unsaved work in open apps may be lost.": "திறந்துள்ள பயன்பாடுகளில் சேமிக்காத பணி இழக்கப்படலாம்."
 }

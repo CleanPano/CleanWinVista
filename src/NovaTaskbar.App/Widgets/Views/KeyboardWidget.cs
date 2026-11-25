@@ -14,6 +14,8 @@ internal sealed class KeyboardWidget : WidgetView
     private readonly TextBlock _code;
     private IReadOnlyList<KeyboardLanguage> _all = [];
     private IntPtr _current;
+    private Microsoft.UI.Dispatching.DispatcherQueueTimer? _verify;
+    private KeyboardLanguage? _pending;
 
     public KeyboardWidget(double iconSize, double width, KeyboardLayouts keyboards, Action changed) : base(WidgetKind.Keyboard, iconSize, width)
     {
@@ -60,9 +62,26 @@ internal sealed class KeyboardWidget : WidgetView
 
     private void Switch(KeyboardLanguage target)
     {
-        if (!_keyboards.Switch(target)) return;
+        _keyboards.Switch(target);
         _current = target.Handle; // otimista; a próxima amostra confirma
         _code.Text = target.Code;
         _changed();
+
+        // Alguns apps ignoram o pedido (o clique "não funcionava"): confere logo depois e, se preciso, usa Win + Espaço.
+        _pending = target;
+        if (_verify is null)
+        {
+            _verify = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread().CreateTimer();
+            _verify.Interval = TimeSpan.FromMilliseconds(250);
+            _verify.IsRepeating = false;
+            _verify.Tick += (_, _) =>
+            {
+                if (_pending is { } p) _keyboards.EnsureSwitched(p, _all);
+                _pending = null;
+                _changed();
+            };
+        }
+        _verify.Stop();
+        _verify.Start();
     }
 }

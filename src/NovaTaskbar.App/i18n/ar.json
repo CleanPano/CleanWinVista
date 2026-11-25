@@ -540,5 +540,14 @@
   "~{0}h{1:00} left": "متبقٍ ~{0} س {1:00} د",
   "Also install CleanPano, a free PC cleaner by the same developer": "ثبّت أيضًا CleanPano، منظّف الكمبيوتر المجاني من المطوّر نفسه",
   "Its own installer opens after this one; Windows will ask for administrator permission.": "يفتح مثبّته الخاص بعد هذا؛ وسيطلب Windows إذن المسؤول.",
-  "The CleanPano installer opens when you click Finish.": "يفتح مثبّت CleanPano عند النقر على «إنهاء»."
+  "The CleanPano installer opens when you click Finish.": "يفتح مثبّت CleanPano عند النقر على «إنهاء».",
+  "Power (lock, sleep, restart, shut down)": "الطاقة (قفل، سكون، إعادة تشغيل، إيقاف التشغيل)",
+  "Lock": "قفل",
+  "Sleep": "سكون",
+  "Sign out": "تسجيل الخروج",
+  "Shut down": "إيقاف التشغيل",
+  "Sign out of Windows?": "هل تريد تسجيل الخروج من Windows؟",
+  "Restart this PC?": "هل تريد إعادة تشغيل هذا الكمبيوتر؟",
+  "Shut down this PC?": "هل تريد إيقاف تشغيل هذا الكمبيوتر؟",
+  "Unsaved work in open apps may be lost.": "قد تفقد العمل غير المحفوظ في التطبيقات المفتوحة."
 }

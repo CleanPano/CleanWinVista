@@ -1051,7 +1051,7 @@ public sealed partial class DockWindow : Window
 
         _pressIndex = i;
         _pressPoint = pos;
-        _items[i].Pressed = true;
+        _items[i].Pressed = _items[i].Widget?.Clickable != false; // widget decorativo não "afunda"
         _capturedPointer = e.Pointer.PointerId;
         Root.CapturePointer(e.Pointer);
         EnsureRendering();
@@ -1071,7 +1071,7 @@ public sealed partial class DockWindow : Window
         var pos = Canon(pt.Position);
         if (index >= 0 && index < _items.Count && HitItem(pos.X) == index && IsInsideDock(pos))
         {
-            if (_items[index].Widget is { } w) { WidgetActions.PanelPlacement = MenuPlacement; w.OnClick(Root, PanelPoint(pt.Position)); }
+            if (_items[index].Widget is { } w) { if (w.Clickable) { WidgetActions.PanelPlacement = MenuPlacement; w.OnClick(Root, PanelPoint(pt.Position)); } }
             else Activate(_items[index]);
             _hoverIndex = -1; // o clique costuma abrir outra janela: esconde o rótulo (volta no próximo movimento)
         }

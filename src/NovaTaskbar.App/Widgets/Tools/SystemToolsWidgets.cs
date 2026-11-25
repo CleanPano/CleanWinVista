@@ -71,6 +71,90 @@ internal sealed class QuickTogglesWidget(double iconSize, double width, WidgetCo
     }
 }
 
+/// <summary>
+/// Energia: bloquear, suspender, sair, reiniciar e desligar — para quem usa só o Dock, sem a barra do Windows.
+/// Sair, reiniciar e desligar pedem confirmação no próprio painel.
+/// </summary>
+internal sealed class PowerWidget(double iconSize, double width, WidgetContext ctx) : PanelWidget(WidgetKind.Power, iconSize, width, Glyphs.Power)
+{
+    private StackPanel? _host;
+
+    public override string Tooltip => L.T("Power (lock, sleep, restart, shut down)");
+    public override void Update(WidgetData d) { }
+
+    protected override FrameworkElement BuildPanel()
+    {
+        _host = new StackPanel { Width = 230, Padding = new Thickness(4), Spacing = 2 };
+        ShowMenu();
+        return _host;
+    }
+
+    private void ShowMenu()
+    {
+        if (_host is null) return;
+        _host.Children.Clear();
+        _host.Children.Add(Entry(L.T("Lock"), Glyphs.Lock, () => Run(PowerActions.Lock)));
+        _host.Children.Add(Entry(L.T("Sleep"), Glyphs.Sleep, () => Run(PowerActions.Sleep)));
+        _host.Children.Add(Entry(L.T("Sign out"), Glyphs.SignOut, () => Confirm(L.T("Sign out of Windows?"), L.T("Sign out"), PowerActions.SignOut)));
+        _host.Children.Add(Entry(L.T("Restart"), Glyphs.Restart, () => Confirm(L.T("Restart this PC?"), L.T("Restart"), PowerActions.Restart)));
+        _host.Children.Add(Entry(L.T("Shut down"), Glyphs.Power, () => Confirm(L.T("Shut down this PC?"), L.T("Shut down"), PowerActions.ShutDown)));
+    }
+
+    private void Confirm(string question, string action, Func<bool> run)
+    {
+        if (_host is null) return;
+        _host.Children.Clear();
+        _host.Children.Add(new TextBlock { Text = question, FontSize = 14, FontWeight = Microsoft.UI.Text.FontWeights.SemiBold, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(4, 4, 4, 0) });
+        var hint = Hint(L.T("Unsaved work in open apps may be lost."));
+        hint.Margin = new Thickness(4, 2, 4, 8);
+        _host.Children.Add(hint);
+        var buttons = new Grid { ColumnSpacing = 6 };
+        buttons.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        buttons.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        var cancel = Btn(L.T("Cancel"), ShowMenu);
+        var ok = Btn(action, () => Run(run), accent: true);
+        cancel.HorizontalAlignment = ok.HorizontalAlignment = HorizontalAlignment.Stretch;
+        Grid.SetColumn(ok, 1);
+        buttons.Children.Add(cancel);
+        buttons.Children.Add(ok);
+        _host.Children.Add(buttons);
+        cancel.Loaded += (_, _) => cancel.Focus(FocusState.Programmatic); // Enter por engano cancela, não desliga
+    }
+
+    /// <summary>Fecha o painel e executa fora do UI thread (suspender só retorna quando o PC acorda).</summary>
+    private void Run(Func<bool> action)
+    {
+        OpenPanel?.Hide();
+        var log = ctx.Log;
+        _ = Task.Run(() =>
+        {
+            try
+            {
+                if (!action()) log.LogWarning("Energia: o Windows recusou a ação");
+            }
+            catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException or IOException)
+            {
+                log.LogWarning("Energia: falha ao executar ({Error})", ex.GetType().Name);
+            }
+        });
+    }
+
+    private static Button Entry(string text, string glyph, Action click)
+    {
+        var content = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 12 };
+        content.Children.Add(new FontIcon { Glyph = glyph, FontSize = 16 });
+        content.Children.Add(new TextBlock { Text = text, FontSize = 14 });
+        var b = new Button
+        {
+            Content = content, HorizontalAlignment = HorizontalAlignment.Stretch, HorizontalContentAlignment = HorizontalAlignment.Left,
+            Padding = new Thickness(10, 8, 10, 8), BorderThickness = new Thickness(0),
+            Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.Colors.Transparent),
+        };
+        b.Click += (_, _) => click();
+        return b;
+    }
+}
+
 /// <summary>Gravador de voz: grava o microfone em .m4a na pasta Músicas\CleanWinVista.</summary>
 internal sealed class VoiceMemoWidget(double iconSize, double width, WidgetContext ctx) : PanelWidget(WidgetKind.VoiceMemo, iconSize, width, Glyphs.Mic)
 {

@@ -59,7 +59,7 @@ The widgets appear to the right of your apps. Click a widget to open its panel a
 
 ## Install
 
-1. Download **`CleanWinVista-Setup-1.0.2.exe`** from the [latest release](../../releases/latest).
+1. Download **`CleanWinVista-Setup-1.0.3.exe`** from the [latest release](../../releases/latest).
 2. Run it. The installer has the same glass look as the dock and takes four steps: **Language → Options → Install → Finish**.
 3. Pick your language (it becomes the app's language), the install folder, the Start menu and desktop shortcuts, and whether the dock starts with Windows.
 4. Optionally, tick **Also install CleanPano** to install my free PC cleaner, [CleanPano](https://github.com/CleanPano/CleanPano), afterwards.
@@ -112,7 +112,7 @@ You can also double-click **`RUN.cmd`**. It builds, tests, publishes the Release
 
 ```bash
 # put the official CleanPano-Setup.exe in installer/extras/ first (optional component)
-makensis -DVERSION=1.0.2 installer/CleanWinVista.nsi   # → dist/CleanWinVista-Setup-1.0.2.exe
+makensis -DVERSION=1.0.3 installer/CleanWinVista.nsi   # → dist/CleanWinVista-Setup-1.0.3.exe
 ```
 
 ## Documentation

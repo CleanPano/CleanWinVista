@@ -51,7 +51,7 @@ internal static class OutsideClickDismiss
     private static bool IsDown(int vk) => (NativeMethods.GetAsyncKeyState(vk) & 0x8000) != 0;
 
     /// <summary>O cursor está sobre o Dock, o vidro ou um painel/menu aberto (todos deste processo)?</summary>
-    private static bool OverOwnWindow()
+    internal static bool OverOwnWindow()
     {
         if (!NativeMethods.GetCursorPos(out var p)) return true;
         IntPtr h = NativeMethods.WindowFromPoint(p);

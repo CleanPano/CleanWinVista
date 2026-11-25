@@ -18,6 +18,8 @@ internal static class Glyphs
         Timer = "\uE823", Note = "\uE70B", Checklist = "\uE762", Cup = "\uEC32", Walk = "\uE805", Download = "\uE896", Shelf = "\uE7B8",
         Star = "\uE734", Search = "\uE721", AppWindows = "\uE8C8", Photo = "\uE91B", Toggles = "\uE9E9", Mic = "\uE720", Weather = "\uE753",
         Calendar = "\uE787", Services = "\uE9F9", Progress = "\uE9D2", WorldClock = "\uE774", AnalogClock = "\uE121";
+    // Energia
+    public const string Power = "\uE7E8", Lock = "\uE72E", Sleep = "\uE708", SignOut = "\uF3B1", Restart = "\uE777";
     public const string Keyboard = "", Bluetooth = "", Headphones = "", Mouse = "", Gamepad = "", Phone = "", Pen = "";
 
     private static readonly Dictionary<string, (double Dx, double Dy)> Offsets = new()

@@ -305,7 +305,7 @@ public class PackagedPathValidationTests
         Assert.True(s.Behavior.MinimizeIfActive);
         Assert.False(s.Widgets.AllowNetwork); // internet continua opt-in
         Assert.Equal(new[] { WidgetKind.Media, WidgetKind.System, WidgetKind.Network, WidgetKind.Clipboard }, s.Widgets.Items.Take(4).Select(i => i.Kind));
-        Assert.Equal(WidgetKind.Clock, s.Widgets.Items.Last(i => i.Enabled).Kind);
+        Assert.Equal(WidgetKind.Power, s.Widgets.Items.Last(i => i.Enabled).Kind); // botão de energia fecha o Dock, depois do relógio
         Assert.Equal(Enum.GetValues<WidgetKind>().Length, s.Widgets.Items.Select(i => i.Kind).Distinct().Count());
 
         Assert.Equal(DockEdge.Bottom, s.Layout.Edge);

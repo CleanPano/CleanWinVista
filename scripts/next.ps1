@@ -11,6 +11,10 @@ if (-not (Test-Path "$root\dist\app\NovaTaskbar.pri")) { "ERRO: dist\app\NovaTas
 "== PACOTES VULNERAVEIS"
 dotnet list "$root\src\NovaTaskbar.App\NovaTaskbar.App.csproj" package --vulnerable --include-transitive 2>&1 | Select-String -Pattern "vulner|Critical|High|Moderate|Low|error" | ForEach-Object { $_.Line }
 "VULN_EXIT=$LASTEXITCODE"
+"== INSTALADOR"
+$mk = (Get-Command makensis -ErrorAction SilentlyContinue).Source
+foreach ($p in "${env:ProgramFiles(x86)}\NSIS\makensis.exe", "$env:ProgramFiles\NSIS\makensis.exe") { if (-not $mk -and (Test-Path $p)) { $mk = $p } }
+if ($mk) { & $mk /V2 /DVERSION=1.0.3 "$root\installer\CleanWinVista.nsi"; "NSIS_EXIT=$LASTEXITCODE" } else { "NSIS=nao encontrado" }
 Get-Process NovaTaskbar -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep 1
 $exe = "$PSScriptRoot\..\src\NovaTaskbar.App\bin\x64\Debug\net10.0-windows10.0.19041.0\win-x64\NovaTaskbar.exe"
 if (Test-Path $exe) { Start-Process $exe; "STARTED" }

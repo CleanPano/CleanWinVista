@@ -540,5 +540,14 @@
   "~{0}h{1:00} left": "~{0} sa {1:00} dk kaldı",
   "Also install CleanPano, a free PC cleaner by the same developer": "CleanPano’yu da yükle: aynı geliştiriciden ücretsiz bilgisayar temizleyici",
   "Its own installer opens after this one; Windows will ask for administrator permission.": "Kendi yükleyicisi bundan sonra açılır; Windows yönetici izni isteyecek.",
-  "The CleanPano installer opens when you click Finish.": "CleanPano yükleyicisi Bitir’e tıkladığınızda açılır."
+  "The CleanPano installer opens when you click Finish.": "CleanPano yükleyicisi Bitir’e tıkladığınızda açılır.",
+  "Power (lock, sleep, restart, shut down)": "Güç (kilitle, uyku, yeniden başlat, kapat)",
+  "Lock": "Kilitle",
+  "Sleep": "Uyku",
+  "Sign out": "Oturumu kapat",
+  "Shut down": "Kapat",
+  "Sign out of Windows?": "Windows oturumu kapatılsın mı?",
+  "Restart this PC?": "Bu bilgisayar yeniden başlatılsın mı?",
+  "Shut down this PC?": "Bu bilgisayar kapatılsın mı?",
+  "Unsaved work in open apps may be lost.": "Açık uygulamalardaki kaydedilmemiş çalışmalar kaybolabilir."
 }

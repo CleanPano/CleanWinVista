@@ -540,5 +540,14 @@
   "~{0}h{1:00} left": "~còn {0} giờ {1:00} phút",
   "Also install CleanPano, a free PC cleaner by the same developer": "Cài thêm CleanPano, trình dọn dẹp PC miễn phí của cùng nhà phát triển",
   "Its own installer opens after this one; Windows will ask for administrator permission.": "Trình cài đặt riêng của nó sẽ mở sau trình này; Windows sẽ yêu cầu quyền quản trị viên.",
-  "The CleanPano installer opens when you click Finish.": "Trình cài đặt CleanPano sẽ mở khi bạn bấm Hoàn tất."
+  "The CleanPano installer opens when you click Finish.": "Trình cài đặt CleanPano sẽ mở khi bạn bấm Hoàn tất.",
+  "Power (lock, sleep, restart, shut down)": "Nguồn (khóa, ngủ, khởi động lại, tắt máy)",
+  "Lock": "Khóa",
+  "Sleep": "Ngủ",
+  "Sign out": "Đăng xuất",
+  "Shut down": "Tắt máy",
+  "Sign out of Windows?": "Đăng xuất khỏi Windows?",
+  "Restart this PC?": "Khởi động lại máy tính này?",
+  "Shut down this PC?": "Tắt máy tính này?",
+  "Unsaved work in open apps may be lost.": "Công việc chưa lưu trong các ứng dụng đang mở có thể bị mất."
 }

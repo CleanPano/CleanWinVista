@@ -36,6 +36,8 @@ public enum WidgetKind
     QuickToggles, VoiceMemo,
     // ---- Com internet (só com "Permitir widgets com internet" ligado)
     Weather, Calendar, Services,
+    // ---- Energia (bloquear, suspender, sair, reiniciar, desligar) — para quem usa só o Dock, sem a barra do Windows
+    Power,
 }
 
 /// <summary>Forma de exibir uma métrica (CPU/RAM/rede). Inspirado nos tipos de visualização do Stat Space; desenho próprio.</summary>
@@ -92,7 +94,7 @@ public sealed class WidgetSettings
     public bool AllowNetwork { get; set; }
 
     /// <summary>
-    /// Padrão de fábrica = o Dock do dono do app (22/11/2026): ordem, ligados e estilos. Tipos fora da lista
+    /// Padrão de fábrica = o Dock do dono do app (22/11/2026, atualizado em 24/11/2026): ordem, ligados e estilos. Tipos fora da lista
     /// (novos em versões futuras) entram no fim, desligados.
     /// </summary>
     private static readonly (WidgetKind Kind, bool On, WidgetStyle Style)[] Factory =
@@ -109,6 +111,7 @@ public sealed class WidgetSettings
         (WidgetKind.Search, false, WidgetStyle.Ring), (WidgetKind.AppSwitcher, false, WidgetStyle.Ring), (WidgetKind.AnalogClock, true, WidgetStyle.Ring),
         (WidgetKind.QuickToggles, false, WidgetStyle.Ring), (WidgetKind.VoiceMemo, false, WidgetStyle.Ring), (WidgetKind.Clock, true, WidgetStyle.Ring),
         (WidgetKind.Calendar, false, WidgetStyle.Ring), (WidgetKind.Services, false, WidgetStyle.Ring),
+        (WidgetKind.Power, true, WidgetStyle.Ring), // 24/11/2026: botão de energia no fim, como no Dock do dono
     ];
 
     /// <summary>Ligados para quem instala do zero (padrão de fábrica). Os demais ficam disponíveis em Configurações.</summary>

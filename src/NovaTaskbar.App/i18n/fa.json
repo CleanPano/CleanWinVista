@@ -540,5 +540,14 @@
   "~{0}h{1:00} left": "~{0} ساعت و {1:00} دقیقه مانده",
   "Also install CleanPano, a free PC cleaner by the same developer": "CleanPano را هم نصب کن — پاک‌کننده رایگان رایانه از همین توسعه‌دهنده",
   "Its own installer opens after this one; Windows will ask for administrator permission.": "نصب‌کننده خودش بعد از این باز می‌شود؛ Windows اجازه مدیر را می‌خواهد.",
-  "The CleanPano installer opens when you click Finish.": "با کلیک روی «پایان» نصب‌کننده CleanPano باز می‌شود."
+  "The CleanPano installer opens when you click Finish.": "با کلیک روی «پایان» نصب‌کننده CleanPano باز می‌شود.",
+  "Power (lock, sleep, restart, shut down)": "روشن/خاموش (قفل، خواب، راه‌اندازی مجدد، خاموش کردن)",
+  "Lock": "قفل کردن",
+  "Sleep": "خواب",
+  "Sign out": "خروج از حساب",
+  "Shut down": "خاموش کردن",
+  "Sign out of Windows?": "از Windows خارج می‌شوید؟",
+  "Restart this PC?": "این رایانه راه‌اندازی مجدد شود؟",
+  "Shut down this PC?": "این رایانه خاموش شود؟",
+  "Unsaved work in open apps may be lost.": "کارهای ذخیره‌نشده در برنامه‌های باز ممکن است از بین برود."
 }

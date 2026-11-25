@@ -540,5 +540,14 @@
   "~{0}h{1:00} left": "约剩 {0} 小时 {1:00} 分钟",
   "Also install CleanPano, a free PC cleaner by the same developer": "同时安装 CleanPano（同一开发者的免费电脑清理工具）",
   "Its own installer opens after this one; Windows will ask for administrator permission.": "它自己的安装程序会在此之后打开；Windows 会请求管理员权限。",
-  "The CleanPano installer opens when you click Finish.": "点击“完成”后将打开 CleanPano 安装程序。"
+  "The CleanPano installer opens when you click Finish.": "点击“完成”后将打开 CleanPano 安装程序。",
+  "Power (lock, sleep, restart, shut down)": "电源（锁定、睡眠、重启、关机）",
+  "Lock": "锁定",
+  "Sleep": "睡眠",
+  "Sign out": "注销",
+  "Shut down": "关机",
+  "Sign out of Windows?": "要注销 Windows 吗？",
+  "Restart this PC?": "要重启这台电脑吗？",
+  "Shut down this PC?": "要关闭这台电脑吗？",
+  "Unsaved work in open apps may be lost.": "打开的应用中未保存的工作可能会丢失。"
 }
